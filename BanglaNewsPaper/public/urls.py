@@ -7,5 +7,6 @@ urlpatterns = [
     path('news/', NewsAPIView.as_view()),
     # path('detail/<int:pk>/', news_details),
     path('detail/<int:id>/', NewsDetails.as_view()),
-    path('generic/news/', GenericAPIView.as_view()),
+    # path('generic/news/', GenericAPIView.as_view()),
+    path('generic/news/<int:id>/', GenericAPIView.as_view()),
 ]
