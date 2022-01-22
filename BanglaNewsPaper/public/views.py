@@ -57,16 +57,16 @@ def news_list(request):
 #         news.delete()
 #         return HttpResponse(status=204)
 
-@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
 def news_details(request, pk):
     try:
         news = News.objects.get(pk=pk)
     except News.DoesNotExist:
-        return HttpResponse(status=404)
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = NewsSerializer(news)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
@@ -74,7 +74,7 @@ def news_details(request, pk):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == "DELETE":
         news.delete()
