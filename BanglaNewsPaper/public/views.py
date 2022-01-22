@@ -21,13 +21,20 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
 
-class NewsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
-                  mixins.DestroyModelMixin, mixins.RetrieveModelMixin):
+# modal view set not need to declare any mixins
+class NewsViewSet(viewsets.ModelViewSet):
     serializer_class = NewsSerializer
     queryset = News.objects.all()
 
 
-# IT is using only view set
+# Generic view set only configure all method
+# class NewsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
+#                   mixins.DestroyModelMixin, mixins.RetrieveModelMixin):
+#     serializer_class = NewsSerializer
+#     queryset = News.objects.all()
+
+
+# IT is using only viewset all method need to decler
 # class NewsViewSet(viewsets.ViewSet):
 #     def list(self, request):
 #         news = News.objects.all()
