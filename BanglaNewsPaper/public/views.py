@@ -21,33 +21,39 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
 
-class NewsViewSet(viewsets.ViewSet):
-    def list(self, request):
-        news = News.objects.all()
-        serializer = NewsSerializer(news, many=True)
-        return Response(serializer.data)
+class NewsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                  mixins.DestroyModelMixin, mixins.RetrieveModelMixin):
+    serializer_class = NewsSerializer
+    queryset = News.objects.all()
 
-    def create(self, request):
-        serializer = NewsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def retrieve(self, request, pk=None):
-        queryset = News.objects.all()
-        news = get_object_or_404(queryset, pk=pk)
-        serializer = NewsSerializer(news)
-        return Response(serializer.data)
-
-    def update(self, request, pk=None):
-        news = News.objects.get(pk=pk)
-        serializer = NewsSerializer(news, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+# IT is using only view set
+# class NewsViewSet(viewsets.ViewSet):
+#     def list(self, request):
+#         news = News.objects.all()
+#         serializer = NewsSerializer(news, many=True)
+#         return Response(serializer.data)
+#
+#     def create(self, request):
+#         serializer = NewsSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#     def retrieve(self, request, pk=None):
+#         queryset = News.objects.all()
+#         news = get_object_or_404(queryset, pk=pk)
+#         serializer = NewsSerializer(news)
+#         return Response(serializer.data)
+#
+#     def update(self, request, pk=None):
+#         news = News.objects.get(pk=pk)
+#         serializer = NewsSerializer(news, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
