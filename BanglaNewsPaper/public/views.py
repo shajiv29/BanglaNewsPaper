@@ -14,12 +14,20 @@ from rest_framework import generics
 from rest_framework import mixins
 
 
-class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin):
+class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin):
     serializer_class = NewsSerializer
-    queue = News.objects.all()
+    queryset = News.objects.all()
+
+    lookup_field = 'id'
 
     def get(self, request):
         return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+    def put(self, request, id=None):
+        return self.update(request, id)
 
 
 class NewsAPIView(APIView):
