@@ -30,8 +30,16 @@ from .models import News
 #         instance.save()
 #         return instance
 
+# Only view some column
 
+# class NewsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = News
+#         fields = ['id', 'title', 'author', 'description', 'is_active']
+
+
+# Return all field
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
-        fields = ['id', 'title', 'author', 'description', 'is_active']
+        fields = '__all__'

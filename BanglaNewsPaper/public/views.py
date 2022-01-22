@@ -34,6 +34,7 @@ def news_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# This method using for only JSON response
 # @csrf_exempt
 # def news_details(request, pk):
 #     try:
@@ -57,6 +58,7 @@ def news_list(request):
 #         news.delete()
 #         return HttpResponse(status=204)
 
+# This method is using for only Django Rest api response
 @api_view(['GET', 'PUT', 'DELETE'])
 def news_details(request, pk):
     try:
@@ -69,13 +71,12 @@ def news_details(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = NewsSerializer(news, data=data)
+        serializer = NewsSerializer(news, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == "DELETE":
         news.delete()
-        return HttpResponse(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)
