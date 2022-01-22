@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import news_list, news_details, NewsAPIView, NewsDetails, GenericAPIView
+from .views import news_list, news_details, NewsAPIView, NewsDetails, GenericAPIView, GenericNewsView
 
 urlpatterns = [
     # Method based call
@@ -9,4 +9,5 @@ urlpatterns = [
     path('detail/<int:id>/', NewsDetails.as_view()),
     # path('generic/news/', GenericAPIView.as_view()),
     path('generic/news/<int:id>/', GenericAPIView.as_view()),
+    path('generic/news/', GenericNewsView.as_view()),
 ]

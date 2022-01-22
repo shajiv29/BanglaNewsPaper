@@ -37,6 +37,14 @@ class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.Crea
         return self.destroy(request, id)
 
 
+class GenericNewsView(generics.GenericAPIView, mixins.ListModelMixin):
+    serializer_class = NewsSerializer
+    queryset = News.objects.all()
+
+    def get(self, request):
+        return self.list(request)
+
+
 class NewsAPIView(APIView):
 
     def get(self, request):
