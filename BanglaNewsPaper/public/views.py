@@ -9,6 +9,17 @@ from rest_framework.response import Response
 from rest_framework import status
 # class base api view
 from rest_framework.views import APIView
+# generics view and mixins view
+from rest_framework import generics
+from rest_framework import mixins
+
+
+class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin):
+    serializer_class = NewsSerializer
+    queue = News.objects.all()
+
+    def get(self, request):
+        return self.list(request)
 
 
 class NewsAPIView(APIView):
